@@ -6,7 +6,12 @@ from tensorflow import keras
 import xgboost as xgb
 
 # Load the trained model
-model = keras.models.load_model("../models/lstm_model.h5")
+try:
+    model = joblib.load('../models/meta_model.pkl')
+    logging.info("Model loaded successfully.")
+except Exception as e:
+    logging.error(f"Error loading model: {str(e)}")
+    raise
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -39,7 +44,7 @@ def predict():
         logging.info(f"Raw Prediction: {prediction}")
 
         # Extract prediction value
-        prediction_value = prediction[0][0]  # Ensure it's a single value
+        prediction_value = prediction[0]  # Ensure it's a single value
         if pd.isna(prediction_value):  # Check if the prediction is NaN
             raise ValueError("Model returned NaN prediction")
 
