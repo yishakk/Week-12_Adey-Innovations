@@ -108,7 +108,7 @@ dash_app.layout = html.Div([
     [Input('interval', 'n_intervals')]
 )
 def update_summary(n):
-    response = requests.get('http://localhost:5000/api/stats')
+    response = requests.get('http://localhost:5001/api/stats')
     data = response.json()
     return [
         html.Div([
@@ -130,7 +130,7 @@ def update_summary(n):
     [Input('interval', 'n_intervals')]
 )
 def update_trends(n):
-    response = requests.get('http://localhost:5000/api/trends')
+    response = requests.get('http://localhost:5001/api/trends')
     data = pd.DataFrame(response.json())
     return px.line(data, x='date', y='class', 
                  title='Fraud Cases Over Time',
@@ -141,7 +141,7 @@ def update_trends(n):
     [Input('interval', 'n_intervals')]
 )
 def update_geography(n):
-    response = requests.get('http://localhost:5000/api/geography')
+    response = requests.get('http://localhost:5001/api/geography')
     data = pd.DataFrame(response.json())
     return px.choropleth(data, locations='country', 
                        locationmode='country names', color='counts',
@@ -153,7 +153,7 @@ def update_geography(n):
     [Input('interval', 'n_intervals')]
 )
 def update_devices(n):
-    response = requests.get('http://localhost:5000/api/devices')
+    response = requests.get('http://localhost:5001/api/devices')
     data = pd.DataFrame(response.json())
     return px.bar(data, x='device_id', y='counts', 
                 title='Top Fraudulent Devices',
@@ -164,7 +164,7 @@ def update_devices(n):
     [Input('interval', 'n_intervals')]
 )
 def update_browsers(n):
-    response = requests.get('http://localhost:5000/api/browsers')
+    response = requests.get('http://localhost:5001/api/browsers')
     data = pd.DataFrame(response.json())
     return px.bar(data, x='browser', y='counts', 
                 title='Fraud Cases by Browser',
@@ -174,4 +174,4 @@ def update_browsers(n):
 # Run the Application
 # ====================================================================
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
